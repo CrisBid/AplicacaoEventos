@@ -1,0 +1,12 @@
+{
+    "name": "talis/server",
+    "autoload": {
+        "psr-4": {
+            "src\\": "src/"
+        },
+        "files":[
+            "env.php"
+        ]
+    },
+    "require": {}
+}
