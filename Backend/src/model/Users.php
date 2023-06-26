@@ -65,7 +65,6 @@ class Users {
             throw new \Exception("FAILED! NOT SAVED, ROLLBACK");
         }
     }
-
     
     public static function verify($data){
         $dbConn = Conn::getConnection();
@@ -79,7 +78,6 @@ class Users {
     
     
         if ($user && password_verify($data['password'], $user['password'])) {
-            http_response_code(200);
             return $user;
 
         } else {
