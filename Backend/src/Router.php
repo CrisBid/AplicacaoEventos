@@ -29,7 +29,7 @@ class Router {
                     $data = json_decode($jsonData, true); // Decodifica o JSON em um array associativo
                     
                 } else {
-                    $data = null; // Se não for POST, define $data como um array vazio
+                    $data = null; 
                 }
     
                 $controller->handle($route['method'], $data, $requestUrl); // chama o método padrão de todo controlador

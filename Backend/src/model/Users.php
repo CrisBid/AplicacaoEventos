@@ -64,20 +64,24 @@ class Users {
         } else {
             throw new \Exception("FAILED! NOT SAVED, ROLLBACK");
         }
-}
+    }
 
     
     public static function verify($data){
         $dbConn = Conn::getConnection();
+
         $sql = 'SELECT * FROM '.self::$table.' WHERE email = :em';
         $stmt = $dbConn->prepare($sql);
         $stmt->bindValue(':em', $data['email']);
         $stmt->execute();
-    
+        
         $user = $stmt->fetch(\PDO::FETCH_ASSOC);
     
+    
         if ($user && password_verify($data['password'], $user['password'])) {
-            return json_encode($user);
+            http_response_code(200);
+            return $user;
+
         } else {
             throw new \Exception("Email or password is incorrect");
         }

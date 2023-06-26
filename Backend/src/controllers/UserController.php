@@ -27,16 +27,25 @@ class UserController {
         
         if(!$data) {
           http_response_code(400);
-          echo json_encode('DENIED! INVALID PARAMETERS!');
+          echo json_encode('INVALID PARAMETERS!');
         }
 
         $response = $user->insertUser($data);
         http_response_code(201);
-        echo json_encode($response, JSON_UNESCAPED_UNICODE);
+        echo json_encode($response);
+      }
+
+      if($method == 'POST' && $route == 'users/login') {
+        
+        if(!$data) {
+          http_response_code(400);
+          echo json_encode('INVALID PARAMETERS!');
+        }
+
+        $response = $user->verify($data);
+        echo json_encode($response);
       }
       
-    
-
     }
 }
 
