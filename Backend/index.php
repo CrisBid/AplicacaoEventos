@@ -4,7 +4,7 @@ require_once "vendor/autoload.php";
 
 use App\Router;
 use App\Controllers\UserController;
-use App\Model\Conn;
+
 
 $router = new Router();
 

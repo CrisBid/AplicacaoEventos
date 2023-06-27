@@ -8,27 +8,30 @@ use Exception;
 header('Content-Type: application/json');
 
 class UserController {
-
   public function handle($method, $data, $route) {
     $user = new Users();
 
-    // Get all users route
-    if ($method == 'GET' && $route == 'users') {
-      $this->handleGetAllUsers($user);
+    switch ($route) {
+        case 'users':
+            if ($method == 'GET') {
+                $this->handleGetAllUsers($user);
+            }
+            break;
+        case 'users/register':
+            if ($method == 'POST') {
+                $this->handleRegisterUser($user, $data);
+            }
+            break;
+        case 'users/login':
+            if ($method == 'POST') {
+                $this->handleUserLogin($user, $data);
+            }
+            break;
+        default:
+            http_response_code(404);
+            echo json_encode('Endpoint not found! or not handle that kind of http request');
+            break;
     }
-      
-    // Register route
-    if ($method == 'POST' && $route == 'users/register') {
-        $this->handleRegisterUser($user, $data);
-    }
-      
-    // Login route
-    if ($method == 'POST' && $route == 'users/login') {
-      $this->handleUserLogin($user, $data);
-    }
-  
-    http_response_code(404);
-    echo json_encode('Enpoint not found!');
   }
 
   private function handleGetAllUsers($user) {
