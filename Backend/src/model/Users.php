@@ -53,14 +53,13 @@ class Users {
         if ($stmt->rowCount() > 0) {
             $userId = $dbConn->lastInsertId();
             $user = [
-                'id' => $userId,
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'role' => $data['role']
             ];
 
-            http_response_code(200);
-            return json_encode($user);
+            return $user;
+
         } else {
             throw new \Exception("FAILED! NOT SAVED, ROLLBACK");
         }
@@ -76,12 +75,11 @@ class Users {
         
         $user = $stmt->fetch(\PDO::FETCH_ASSOC);
     
-    
         if ($user && password_verify($data['password'], $user['password'])) {
             return $user;
 
         } else {
-            throw new \Exception("Email or password is incorrect");
+            $user = null;
         }
     }
     

@@ -3,7 +3,8 @@
 namespace App\Controllers;
 
 use App\Model\Users;
-use Exception;
+
+use Firebase\JWT\JWT;
 
 header('Content-Type: application/json');
 
@@ -53,7 +54,7 @@ class UserController {
     echo json_encode($response);
     return;
   }
-
+  
   private function handleUserLogin($user, $data) {
     if (!$data) {
         http_response_code(400);
@@ -62,9 +63,35 @@ class UserController {
     }
 
     $response = $user->verify($data);
+
+    if ($response === null) {
+        http_response_code(401);
+        echo json_encode('Invalid credentials');
+        return;
+    }
+
+    // Gerar o token JWT
+    $tokenPayload = [
+        'user_id' => $response['id'],
+        'username' => $response['name'],
+        'role' => $response['role']
+    ];
+
+    $jwtSecretKey = $jwtSecretKey = random_bytes(32); //chave secreta para assinar o token
+    $jwtAlgorithm = 'HS256'; // Algoritmo de assinatura do JWT
+
+    $token = JWT::encode($tokenPayload, $jwtSecretKey, $jwtAlgorithm);
+
+    // Retornar o usuário e o token JWT
+    $responseData = [
+        'user' => $response,
+        'token' => $token
+    ];
+
     http_response_code(200);
-    echo json_encode($response);
+    echo json_encode($responseData);
     return;
   }
 }
+
 ?>
