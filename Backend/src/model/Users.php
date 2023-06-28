@@ -53,6 +53,7 @@ class Users {
         if ($stmt->rowCount() > 0) {
             $userId = $dbConn->lastInsertId();
             $user = [
+                'id' => $userId,
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'role' => $data['role']
@@ -76,13 +77,34 @@ class Users {
         $user = $stmt->fetch(\PDO::FETCH_ASSOC);
     
         if ($user && password_verify($data['password'], $user['password'])) {
-            return $user;
+            $userDTO = [
+                'username' => $user['name'],
+                'email' => $user['email'],
+                'role' => $data['role']
+            ];
+            
+            return $userDTO;
 
         } else {
-            $user = null;
+            $user = null; //nenhum user encontrado com as credencias passadas
         }
     }
-    
+
+    public static function deleteUser($data) {
+        $dbConn = Conn::getConnection();
+
+        $sql = 'DELETE FROM '.self::$table.' WHERE id = :id';
+        $stmt = $dbConn->prepare($sql);
+        $stmt->bindValue(':id', $data['id']);
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            return true;
+            
+        } else {
+            return false;
+        }
+    }
 }
 
 ?>
