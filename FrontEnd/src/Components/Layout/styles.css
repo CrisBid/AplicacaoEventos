@@ -1,0 +1,25 @@
+/* Estilização do cabeçalho */
+header {
+    display: flex;
+    margin: 0;
+    background-color: #222;
+    color: #fff;
+    padding: 20px;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  header h1 {
+    margin: 0;
+  }
+  
+  header nav {
+    margin-top: 10px;
+  }
+  
+  header nav a {
+    color: #fff;
+    margin-right: 10px;
+    text-decoration: none;
+  }
+  
