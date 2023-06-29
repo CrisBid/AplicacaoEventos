@@ -13,7 +13,8 @@ $router = new Router();
 $router->addRoute('GET', 'users', UserController::class, null); // url: /users OK
 $router->addRoute('POST', 'users/register', UserController::class, null); // url: /users OK
 $router->addRoute('POST', 'users/login', UserController::class, null); // url: /users OK
-$router->addRoute('DELETE', 'users/delete', UserController::class, null); //Mandar o id do evento no body do request com verbo DELETE OK 
+$router->addRoute('DELETE', 'users/delete', UserController::class, null); //Mandar o email do user no body do request com verbo DELETE OK 
+$router->addRoute('PUT', 'users/update', UserController::class, null); //Mandar o todos os dados, até os que não mudaram no body do request com verbo PUT OK 
 
 
 $router->addRoute('GET', 'events', EventsController::class, null); // url: /events

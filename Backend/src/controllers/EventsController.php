@@ -54,6 +54,7 @@ class EventsController {
 
   private function handleCreateEvent($events, $data) {
     $response = $events->createEvent($data);
+    var_dump($data);
     if($response) {
         http_response_code(201);
         echo json_encode($response);
