@@ -4,10 +4,15 @@ namespace App\Controllers;
 
 use App\Model\Users;
 use Firebase\JWT\JWT;
+use Exception;
 
 header('Content-Type: application/json');
 
 class UserController {
+
+  private  $jwtSecretKey = '435klfdlfjldf394lkjflskjdl'; //chave secreta randomica para assinar o token
+  private $jwtAlgorithm = 'HS256'; //algoritimo de assinatura
+
   public function handle($method, $data, $route) {
     $user = new Users();
 
@@ -29,14 +34,37 @@ class UserController {
             break;
          case 'users/delete':
          if ($method == 'DELETE') {
-             $this->handleDeleteUser($user, $data);
+            $this->handleDeleteUser($user, $data);
+
            }
            break;
+
+        case 'users/update':
+        if ($method == 'PUT') {
+            $this->handleUpdateUser($user, $data);
+
+            }
+            break;
         default:
             http_response_code(404);
             echo json_encode('Endpoint not found! or not handle that kind of http request');
             break;
     }
+  }
+
+//   private function decodeToken($token) {
+
+//       try {
+//           $decodedToken = JWT::decode($token, $this->jwtSecretKey, $this->jwtAlgorithm);
+//           return $decodedToken;
+//     } catch (Exception $e) {
+//             return null; 
+//       }
+//   }
+  
+  private function encodeToken($payload) {    
+      $token = JWT::encode($payload, $this->jwtSecretKey, $this->jwtAlgorithm);
+      return $token;
   }
 
   private function handleGetAllUsers($user) {
@@ -59,7 +87,9 @@ class UserController {
     return;
   }
   
-  private function handleUserLogin($user, $data) {
+ 
+private function handleUserLogin($user, $data)
+{
     if (!$data) {
         http_response_code(400);
         echo json_encode('INVALID PARAMETERS!');
@@ -76,13 +106,13 @@ class UserController {
 
     // Gerar o token JWT
     $tokenPayload = [
-        'role' => $response['role']
+        'id' => $response['id'],
+        'role' => $response['role'],
+        'email' => $response['email'],
+        'username' => $response['name']
     ];
 
-    $jwtSecretKey =  random_bytes(32); //chave secreta randomica para assinar o token
-    $jwtAlgorithm = 'HS256'; // Algoritmo de assinatura do JWT
-
-    $token = JWT::encode($tokenPayload, $jwtSecretKey, $jwtAlgorithm);
+    $token = $this->encodeToken($tokenPayload);
 
     // Retornar o usuário e o token JWT
     $responseData = [
@@ -95,7 +125,7 @@ class UserController {
     http_response_code(200);
     echo json_encode($responseData);
     return;
-  }
+}
 
   private function handleDeleteUser($user, $data) {
     if (!$data) {
@@ -107,9 +137,22 @@ class UserController {
     $response = $user->deleteUser($data);
     if($response) {
         http_response_code(200);
-        echo 'deu bao';
+    }
+    return;
+  }
+
+  private function handleUpdateUser($user, $data) {
+    
+    if (!$data) {
+        http_response_code(400);
+        echo json_encode('INVALID PARAMETERS!');
+        return;
     }
 
+    $response = $user->UpdateUser($data);
+    if($response) {
+        http_response_code(200);
+    }
     return;
   }
 }

@@ -93,9 +93,9 @@ class Users {
     public static function deleteUser($data) {
         $dbConn = Conn::getConnection();
 
-        $sql = 'DELETE FROM '.self::$table.' WHERE id = :id';
+        $sql = 'DELETE FROM '.self::$table.' WHERE email = :em';
         $stmt = $dbConn->prepare($sql);
-        $stmt->bindValue(':id', $data['id']);
+        $stmt->bindValue(':em', $data['email']);
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
@@ -105,6 +105,28 @@ class Users {
             return false;
         }
     }
+
+    public static function UpdateUser($data) {
+        $dbConn = Conn::getConnection();
+    
+        $sql = 'UPDATE ' . self::$table . ' SET name = :name, email = :email, password = :password, role = :role WHERE email = :email';
+    
+        $stmt = $dbConn->prepare($sql);
+        $stmt->bindValue(':name', $data['name']);
+        $stmt->bindValue(':email', $data['email']);
+    
+        $hash = password_hash($data['password'], PASSWORD_DEFAULT);
+        $stmt->bindValue(':password', $hash);
+    
+        $stmt->bindValue(':role', $data['role']);
+    
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
 }
 
 ?>
