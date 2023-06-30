@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './UserLoginStyles.css'
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -28,21 +29,23 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="container">
       <h1>Login</h1>
-      <form>
-        <div>
-          <label>Email:</label>
-          <input type="email" value={email} onChange={handleEmailChange} />
+      <form className="form">
+        <div className="inputcontainer">
+          <label className="textofinput">Email</label>
+          <input type="email" value={email} onChange={handleEmailChange} className="input-field" />
         </div>
-        <div>
-          <label>Senha:</label>
-          <input type="password" value={password} onChange={handlePasswordChange} />
+        <div className="inputcontainer">
+          <label className="textofinput">Senha</label>
+          <input type="password" value={password} onChange={handlePasswordChange} className="input-field" />
         </div>
-        <button type="button" onClick={handleLogin}>Login</button>
+        <button type="button" onClick={handleLogin} className="login-button">Login</button>
       </form>
     </div>
   );
 };
+
+
 
 export default Login;
