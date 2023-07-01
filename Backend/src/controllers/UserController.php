@@ -57,16 +57,20 @@ class UserController {
     }
   }
 
-//   private function decodeToken($token) {
+  private function decodeToken($token) {
+    try {
+        $decodedToken = JWT::decode($token, $this->jwtSecretKey);
+        return $decodedToken;
+    } catch (Exception $e) {
+        return null; 
+    }
+}
 
-//       try {
-//           $decodedToken = JWT::decode($token, $this->jwtSecretKey, $this->jwtAlgorithm);
-//           return $decodedToken;
-//     } catch (Exception $e) {
-//             return null; 
-//       }
-//   }
-  
+    public function getDecodedToken($token) {
+        return $this->decodeToken($token);
+    }
+
+
   private function encodeToken($payload) {    
       $token = JWT::encode($payload, $this->jwtSecretKey, $this->jwtAlgorithm);
       return $token;
@@ -161,6 +165,7 @@ private function handleUserLogin($user, $data) {
     }
     return;
   }
+
 }
 
 ?>
