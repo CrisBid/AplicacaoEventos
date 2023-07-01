@@ -23,25 +23,35 @@ class Events {
         }
     }
 
-    public static function EventFilter($data, $route) {
+    public static function eventFilter($data, $route) {
         $dbConn = Conn::getConnection();
     
         $queryParams = array();
         $whereClauses = array();
     
         if (isset($data['name'])) {
-            $whereClauses[] = 'name = :name';
-            $queryParams[':name'] = $data['name'];
+            $whereClauses[] = 'name LIKE :name';
+            $queryParams[':name'] = '%' . $data['name'] . '%';
         }
     
         if (isset($data['description'])) {
-            $whereClauses[] = 'description = :description';
-            $queryParams[':description'] = $data['description'];
+            $whereClauses[] = 'description LIKE :description';
+            $queryParams[':description'] = '%' . $data['description'] . '%';
         }
     
         if (isset($data['category'])) {
-            $whereClauses[] = 'category = :category';
-            $queryParams[':category'] = $data['category'];
+            $whereClauses[] = 'category LIKE :category';
+            $queryParams[':category'] = '%' . $data['category'] . '%';
+        }
+    
+        if (isset($data['local'])) {
+            $whereClauses[] = 'local LIKE :local';
+            $queryParams[':local'] = '%' . $data['local'] . '%';
+        }
+    
+        if (isset($data['date'])) {
+            $whereClauses[] = 'date LIKE :date';
+            $queryParams[':date'] = '%' . $data['date'] . '%';
         }
     
         $whereClause = '';
@@ -59,6 +69,7 @@ class Events {
             return false; 
         }
     }
+    
     
 
 

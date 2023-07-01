@@ -20,7 +20,7 @@ $router->addRoute('PUT', 'users/update', UserController::class); //Mandar o todo
 $router->addRoute('GET', 'events', EventsController::class); // url: /events -- OK
 $router->addRoute('POST', 'events/create', EventsController::class); // url: /events, mandar a url da imagem no json -- OK
 $router->addRoute('DELETE', 'events/delete', EventsController::class); // url: /events, mandar o email no body do request com verbo DELETE -- OK
-$router->addRoute('POST', 'events/events', EventsController::class); // url: /events -- mandar o id do evento no body
+$router->addRoute('POST', 'events/search', EventsController::class); // url: /events/search -- mandar o name OU description OU local OU date ou category do evento no body
 //$router->addRoute('POST', 'events/subscription', EventsController::class); // url: /events
 //$router->addRoute('POST', 'events/subscription', EventsController::class); // url: /events
 

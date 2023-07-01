@@ -15,8 +15,8 @@ class Router {
         ];
     }
 
-    public function handleRequest()
-{
+    public function handleRequest() {
+        
     $requestMethod = $_SERVER['REQUEST_METHOD'];
     $requestUrl = $_GET['url'];
 

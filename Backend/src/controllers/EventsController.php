@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Model\Events;
 
-//header('Content-Type: application/json');
+header('Content-Type: application/json');
 
 class EventsController {
   public function handle($method, $data, $route) {
@@ -32,14 +32,9 @@ class EventsController {
                 $this->handleDeleteEvent($events, $data);
             }
             break;
-        case 'events/search/category':
+        case 'events/search':
             if($method == 'POST') {
-                $this->handleSearchEvent($events, $data);
-            }
-            break;
-        case 'events/search/name':
-            if($method == 'DELETE') {
-                $this->handleSearchEvent($events, $data);
+                $this->handleSearchEvent($data, $route, $events);
             }
             break;
         default:
@@ -100,8 +95,26 @@ class EventsController {
     }
   }
 
-  private function handleSearchEvent(){
-    //fazer ainda pae
+  private function handleSearchEvent($data, $route, $events){
+    if (!$data) {
+        http_response_code(400);
+        echo json_encode('INVALID PARAMETERS!');
+        return;
+    }
+
+    $response = $events->eventFilter($data, $route);
+    if($response) {
+        http_response_code(200);
+        echo json_encode($response);
+    }
+    else {
+        http_response_code(404);
+        echo json_encode('NOT FOUND');
+        return;
+    }
+
+    
+
   }
   
 }
