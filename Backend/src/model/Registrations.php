@@ -41,6 +41,24 @@ class Registrations {
         }
     }
 
+    public static function getUsersByEvent($data) {
+        $dbConn = Conn::getConnection();
+    
+        $sql = 'SELECT u.* FROM tb_users u
+                INNER JOIN user_event ue ON u.id = ue.user_id
+                WHERE ue.event_id = :eid';
+    
+        $stmt = $dbConn->prepare($sql);
+        $stmt->bindParam(':eid', $data['eventId'], PDO::PARAM_INT);
+        $stmt->execute();
+    
+        if ($stmt->rowCount() > 0) {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } else {
+            return false;
+        }
+    }
+
     public static function registrate($data){
         $dbConn = Conn::getConnection();
 
@@ -66,7 +84,6 @@ class Registrations {
             return false;
         }
     }
-
 
     public static function deleteRegistration($data) {
         $dbConn = Conn::getConnection();

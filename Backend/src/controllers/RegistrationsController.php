@@ -32,6 +32,12 @@ class RegistrationsController {
                 $this->handleDeleteRegistration($registrations, $data);
             }
             break;
+        case 'events/registered':
+            if($method == 'POST') {
+                $this->handlegetUsersByEvent($registrations, $data);
+            }
+            break;
+
         default:
             http_response_code(404);
             echo json_encode('Endpoint not found! or not handle that kind of http request');
@@ -91,16 +97,30 @@ class RegistrationsController {
         }
     }
 
-    private function handleDeleteRegistration($user, $data) {
+    private function handleDeleteRegistration($registrations, $data) {
         $this->verifyData($data);
 
-        $response = $user->deleteRegistration($data);
+        $response = $registrations->deleteRegistration($data);
         if($response) {
             http_response_code(200);
         }
         else {
             http_response_code(500);
             echo json_encode('NOT DELETED');
+        }        
+    }
+
+    private function handlegetUsersByEvent($registrations, $data) {
+        $this->verifyData($data);
+        
+        $response = $registrations->getUsersByEvent($data);
+        if($response) {
+            http_response_code(200);
+            echo json_encode($response);
+        }
+        else {
+            http_response_code(404);
+            echo json_encode('NOT FOUND');
         }        
     }
 }  
