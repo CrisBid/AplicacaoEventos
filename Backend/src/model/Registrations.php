@@ -40,8 +40,6 @@ class Registrations {
            return null;
         }
     }
-    
-    
 
     public static function registrate($data){
         $dbConn = Conn::getConnection();
@@ -69,16 +67,14 @@ class Registrations {
         }
     }
 
-    
-    
-    
-    
-    public static function deleteEvent($data) {
-        $dbConn = Conn::getConnection();
 
-        $sql = 'DELETE FROM '.self::$table.' WHERE id = :id';
+    public static function deleteRegistration($data) {
+        $dbConn = Conn::getConnection();
+    
+        $sql = 'DELETE FROM ' . self::$table . ' WHERE user_id = :uid AND event_id = :eid';
         $stmt = $dbConn->prepare($sql);
-        $stmt->bindValue(':id', $data['id']);
+        $stmt->bindValue(':uid', $data['userId']);
+        $stmt->bindValue(':eid', $data['eventId']);
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {

@@ -29,7 +29,10 @@ $router->addRoute('PUT', 'events/update', EventsController::class); // url: /eve
 //subscriptions
 $router->addRoute('GET', 'events/registrations', RegistrationsController::class); // retorna  todos os eventos com id e nome e o numero de inscrições
 $router->addRoute('GET', 'users/registrations', RegistrationsController::class); // retorna  todos os usuarios com id e nome e o numero de eventos que se inscreveram
-$router->addRoute('POST', 'events/registrate', RegistrationsController::class); // url: /events
+$router->addRoute('POST', 'events/registrate', RegistrationsController::class); // passar o userId(escrito desse jeito)) e o eventId(desse jeito) para inscrever em um evento
+$router->addRoute('DELETE', 'events/unregister', RegistrationsController::class); // passar o userId(escrito desse jeito)) e o eventId(desse jeito) para inscrever em um evento
+//$router->addRoute('GET', 'users/events/registered', RegistrationsController::class); // Passar o id no body do request desse jeito:userId -- Retorna os eventos em que um usuário específico está inscrito
+
 
 
 
