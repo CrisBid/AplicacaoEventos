@@ -29,8 +29,19 @@ class EventsController {
 
         case 'events/delete':
             if($method == 'DELETE') {
-                //$this->handleDeleteEvent($events, $data);
+                $this->handleDeleteEvent($events, $data);
             }
+            break;
+        case 'events/search/category':
+            if($method == 'POST') {
+                $this->handleSearchEvent($events, $data);
+            }
+            break;
+        case 'events/search/name':
+            if($method == 'DELETE') {
+                $this->handleSearchEvent($events, $data);
+            }
+            break;
         default:
             http_response_code(404);
             echo json_encode('Endpoint not found! or not handle that kind of http request');
@@ -53,17 +64,44 @@ class EventsController {
   }
 
   private function handleCreateEvent($events, $data) {
+    if (!$data) {
+        http_response_code(400);
+        echo json_encode('INVALID PARAMETERS!');
+        return;
+    }
+
     $response = $events->createEvent($data);
-    var_dump($data);
     if($response) {
         http_response_code(201);
         echo json_encode($response);
     }
     else{
         http_response_code(500);
-        echo json_encode('Not created, error');
+        echo json_encode('Event Not created, error');
         return;
     }
+  }
+
+  private function handleDeleteEvent($events, $data) {
+    if (!$data) {
+        http_response_code(400);
+        echo json_encode('INVALID PARAMETERS!');
+        return;
+    }
+    
+    $response = $events->deleteEvent($data);
+    if($response) {
+ 
+        http_response_code(200);
+    }
+    else {
+        http_response_code(500);
+        return;
+    }
+  }
+
+  private function handleSearchEvent(){
+    //fazer ainda pae
   }
   
 }

@@ -23,27 +23,48 @@ class Events {
         }
     }
 
+    public static function EventFilter($data, $route) {
+        $dbConn = Conn::getConnection();
+    
+        $queryParams = array();
+        $whereClauses = array();
+    
+        if (isset($data['name'])) {
+            $whereClauses[] = 'name = :name';
+            $queryParams[':name'] = $data['name'];
+        }
+    
+        if (isset($data['description'])) {
+            $whereClauses[] = 'description = :description';
+            $queryParams[':description'] = $data['description'];
+        }
+    
+        if (isset($data['category'])) {
+            $whereClauses[] = 'category = :category';
+            $queryParams[':category'] = $data['category'];
+        }
+    
+        $whereClause = '';
+        if (!empty($whereClauses)) {
+            $whereClause = 'WHERE ' . implode(' OR ', $whereClauses);
+        }
+    
+        $sql = 'SELECT * FROM ' . self::$table . ' ' . $whereClause;
+        $stmt = $dbConn->prepare($sql);
+        $stmt->execute($queryParams);
+    
+        if ($stmt->rowCount() > 0) {
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        } else {
+            return false; 
+        }
+    }
+    
+
+
     public static function createEvent($data) {
         $dbConn = Conn::getConnection();
     
-        $uploadedFilePath = 'uploads/event/';
-        $imageFilePath = null; // Initialize with a default value
-    
-        // Check if the image file exists in the data
-        if (isset($data['image']) && $data['image']['error'] === UPLOAD_ERR_OK) {
-            $imageFile = $data['image'];
-            $imageFileName = $imageFile['name'];
-            $imageFilePath = $uploadedFilePath . $imageFileName;
-    
-            if (!move_uploaded_file($imageFile['tmp_name'], $imageFilePath)) {
-                throw new Exception("Failed to move the uploaded file.");
-            }
-        } else {
-            // throw new Exception("No valid image file provided.");
-            echo "deu ruim";
-        }
-    
-        // Rest of the code remains the same
         $sql = 'INSERT INTO tb_events (name, description, date, time, local, category, price, img) VALUES (:nm, :desc, :date, :time, :loc, :cat, :price, :img)';
         $stmt = $dbConn->prepare($sql);
         $stmt->bindValue(':nm', $data['name']);
@@ -53,7 +74,7 @@ class Events {
         $stmt->bindValue(':loc', $data['local']);
         $stmt->bindValue(':cat', $data['category']);
         $stmt->bindValue(':price', $data['price']);
-        $stmt->bindValue(':img', $imageFilePath);
+        $stmt->bindValue(':img', $data['img']);
         $stmt->execute();
     
         if ($stmt->rowCount() > 0) {
@@ -67,7 +88,7 @@ class Events {
                 'local' => $data['local'],
                 'category' => $data['category'],
                 'price' => $data['price'],
-                'img' => $imageFilePath
+                'img' => $data['img']
             ];
     
             return $event;
@@ -76,8 +97,21 @@ class Events {
         }
     }
     
-    
-    
+    public static function deleteEvent($data) {
+        $dbConn = Conn::getConnection();
+
+        $sql = 'DELETE FROM '.self::$table.' WHERE id = :id';
+        $stmt = $dbConn->prepare($sql);
+        $stmt->bindValue(':id', $data['id']);
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            return true;
+            
+        } else {
+            return false;
+        }
+    }
 
 }
 

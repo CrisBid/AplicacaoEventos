@@ -6,7 +6,7 @@ namespace App;
 class Router {
     protected $routes = [];
 
-    public function addRoute($method, $path, $controller, $params) {
+    public function addRoute($method, $path, $controller) {
         $this->routes[] = [
             'method' => $method, 
             'path' => $path, 
@@ -32,6 +32,7 @@ class Router {
                     case $this->isJsonRequest():
                         if ($requestMethod == 'POST' || $requestMethod == 'PUT' || $requestMethod == 'DELETE') {
                             $data = $this->getJsonData();
+                   
                       
                         }
                         break;
@@ -39,12 +40,12 @@ class Router {
                     case $this->isMultipartRequest():
                         if ($requestMethod == 'POST' || $requestMethod == 'PUT') {
                             $data = $this->getFormData();
-                            $imageFile = $this->getFileData('image');
+            
                         }
                         break;
                 }
 
-                $controller->handle($requestMethod, $data, $requestUrl, $imageFile);
+                $controller->handle($requestMethod, $data, $requestUrl);
                 return;
             } else {
                 http_response_code(500);
@@ -76,9 +77,5 @@ class Router {
 
     private function getFormData() {
         return $_POST; 
-    }
-    
-    private function getFileData($fieldName) {
-        return $_FILES[$fieldName] ?? null;
     }
 }
