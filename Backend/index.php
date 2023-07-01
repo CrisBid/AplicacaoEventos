@@ -6,6 +6,7 @@ use App\Router;
 use App\Controllers\UserController;
 use App\Controllers\EventsController;
 use App\Controllers\RegistrationsController;
+use App\Controllers\ReviewsController;
 
 
 
@@ -18,6 +19,11 @@ $router->addRoute('GET', 'events/registrations', RegistrationsController::class)
 $router->addRoute('GET', 'users/registrations', RegistrationsController::class); // retorna  todos os usuarios com id e nome e o numero de eventos que se inscreveram
 $router->addRoute('POST', 'events/registered', RegistrationsController::class); //Retorna os usuários inscritos em um evento específico. especificar o eventId no body ao dar POST, retorna json com os usuários que estão inscritos no do id passado
 $router->addRoute('POST', 'users/search', UserController::class); // url: /users/search mandar o email do user no body do request usando POST -- OK
+$router->addRoute('GET', 'events/reviews', ReviewsController::class); // retorna todos os reviews -- ok
+$router->addRoute('POST', 'event/reviews', ReviewsController::class);// mandar o id do evento [userId] no body do request     
+$router->addRoute('POST', 'user/reviews', ReviewsController::class); // mandar o id do evento [eventId] no body do request    
+
+
 
 //users (Participante pode cadastrar, logar, deletar sua conta, editar sua info)
 $router->addRoute('POST', 'users/register', UserController::class); // url: /users -- OK
@@ -37,6 +43,9 @@ $router->addRoute('POST', 'events/registrate', RegistrationsController::class); 
 $router->addRoute('DELETE', 'events/unregister', RegistrationsController::class); // passar o userId(escrito desse jeito)) e o eventId(desse jeito) para inscrever em um evento
 
 //reviews
+$router->addRoute('POST', 'reviews/create', ReviewsController::class); // mandar todos os dados por json num post e retorna 200OK
+$router->addRoute('DELETE', 'reviews/delete', ReviewsController::class); // mandar o (escrito desse jeito: reviewId no json) do review no body e retorna 200OK
+
 
 
 
