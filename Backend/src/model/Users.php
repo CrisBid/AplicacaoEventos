@@ -78,9 +78,10 @@ class Users {
     
         if ($user && password_verify($data['password'], $user['password'])) {
             $userDTO = [
+                'id' => $user['id'], ///ver isso 
                 'username' => $user['name'],
                 'email' => $user['email'],
-                'role' => $data['role']
+                'role' => $user['role']
             ];
             
             return $userDTO;

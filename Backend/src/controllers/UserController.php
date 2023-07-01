@@ -119,17 +119,14 @@ private function handleUserLogin($user, $data) {
 
     // Gerar o token JWT
     $tokenPayload = [
-        'id' => $response['id'],
         'role' => $response['role'],
-        'email' => $response['email'],
-        'username' => $response['name']
     ];
 
     $token = $this->encodeToken($tokenPayload);
 
     // Retornar o usuário e o token JWT
     $responseData = [
-        'userId' => $response['id'],
+        'id' => $response['id'],
         'user' => $response['username'],
         'email' => $response['email'],
         'Authtoken' => $token

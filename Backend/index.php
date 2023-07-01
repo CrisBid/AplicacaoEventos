@@ -24,7 +24,7 @@ $router->addRoute('DELETE', 'events/delete', EventsController::class); // url: /
 $router->addRoute('POST', 'events/search', EventsController::class); // url: /events/search -- mandar o name OU description OU local OU date ou category do evento no body
 $router->addRoute('PUT', 'events/update', EventsController::class); // url: /events/update -- //Mandar o todos os dados, até os que não mudaram no body do request com verbo PUT -- OK 
 
-
+//criar o subscription controller, o subcription e ad
 //$router->addRoute('POST', 'events/subscription', EventsController::class); // url: /events
 //$router->addRoute('POST', 'events/subscription', EventsController::class); // url: /events
 
