@@ -70,9 +70,6 @@ class Events {
         }
     }
     
-    
-
-
     public static function createEvent($data) {
         $dbConn = Conn::getConnection();
     
@@ -119,6 +116,28 @@ class Events {
         if ($stmt->rowCount() > 0) {
             return true;
             
+        } else {
+            return false;
+        }
+    }
+
+    public static function UpdateEvent($data) {
+        $dbConn = Conn::getConnection();
+        $sql = 'UPDATE ' . self::$table . ' SET name = :nm, description = :d, date = :dt, time = :tm, local = :lc, category = :ct, price = :pc, img = :img WHERE id = :id';
+    
+        $stmt = $dbConn->prepare($sql);
+        $stmt->bindValue(':nm', $data['name']);
+        $stmt->bindValue(':d', $data['description']);
+        $stmt->bindValue(':dt', $data['date']);
+        $stmt->bindValue(':tm', $data['time']);
+        $stmt->bindValue(':lc', $data['local']);
+        $stmt->bindValue(':ct', $data['category']);
+        $stmt->bindValue(':pc', $data['price']);
+        $stmt->bindValue(':img', $data['img']);
+        $stmt->bindValue(':id', $data['id']);
+    
+        if ($stmt->execute()) {
+            return true;
         } else {
             return false;
         }

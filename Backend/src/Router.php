@@ -1,7 +1,7 @@
 <?php
 
 namespace App;
-
+header('Content-Type: application/json');
 
 class Router {
     protected $routes = [];
@@ -16,11 +16,12 @@ class Router {
     }
 
     public function handleRequest() {
-        
+
     $requestMethod = $_SERVER['REQUEST_METHOD'];
     $requestUrl = $_GET['url'];
 
     foreach ($this->routes as $route) {
+
         if ($route['method'] == $requestMethod && $requestUrl == $route['path']) {
             if (class_exists($route['controller'])) {
                 $controller = new $route['controller']();

@@ -23,7 +23,7 @@ class EventsController {
             break;
         case 'events/update':
             if ($method == 'PUT') {
-                //$this->handleUpdateEvent($user, $data);
+                $this->handleUpdateEvent($events, $data);
             }
             break;
 
@@ -44,6 +44,14 @@ class EventsController {
     }
   }
 
+  private function verifyData($data){
+    if (!$data) {
+        http_response_code(400);
+        echo json_encode('INVALID PARAMETERS!');
+        return;
+    }
+  }
+
   private function handleGetAllEvents($events) {
 
     $response = $events->getAllevents();
@@ -59,11 +67,7 @@ class EventsController {
   }
 
   private function handleCreateEvent($events, $data) {
-    if (!$data) {
-        http_response_code(400);
-        echo json_encode('INVALID PARAMETERS!');
-        return;
-    }
+    $this->verifyData($data);
 
     $response = $events->createEvent($data);
     if($response) {
@@ -78,11 +82,7 @@ class EventsController {
   }
 
   private function handleDeleteEvent($events, $data) {
-    if (!$data) {
-        http_response_code(400);
-        echo json_encode('INVALID PARAMETERS!');
-        return;
-    }
+    $this->verifyData($data);
     
     $response = $events->deleteEvent($data);
     if($response) {
@@ -96,11 +96,7 @@ class EventsController {
   }
 
   private function handleSearchEvent($data, $route, $events){
-    if (!$data) {
-        http_response_code(400);
-        echo json_encode('INVALID PARAMETERS!');
-        return;
-    }
+    $this->verifyData($data);
 
     $response = $events->eventFilter($data, $route);
     if($response) {
@@ -112,11 +108,19 @@ class EventsController {
         echo json_encode('NOT FOUND');
         return;
     }
-
-    
-
   }
-  
+
+  private function handleUpdateEvent($events, $data) {
+    $this->verifyData($data);
+
+    $response = $events->UpdateEvent($data);
+    if($response) {
+        http_response_code(200);
+    }
+    return;
+  }
+
 }
+  
 
 ?>

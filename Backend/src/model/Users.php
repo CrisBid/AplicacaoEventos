@@ -5,12 +5,12 @@ namespace App\Model;
 class Users {
     private static $table = 'tb_users';
     
-    public static function getUserById($id){
+    public static function getUserByEmail($data){
 
         $dbConn = Conn::getConnection();
-        $sql = 'SELECT * FROM '.self::$table.' WHERE id = :id';
+        $sql = 'SELECT * FROM '.self::$table.' WHERE email = :em';
         $stmt = $dbConn->prepare($sql);
-        $stmt->bindValue(':id', $id);
+        $stmt->bindValue(':em', $data['email']);
         $stmt->execute();
 
         if($stmt->rowCount() > 0) {

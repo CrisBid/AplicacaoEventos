@@ -22,6 +22,11 @@ class UserController {
                 $this->handleGetAllUsers($user);
             }
             break;
+        case 'users/search':
+            if ($method == 'POST') {
+                $this->handleGetUser($user, $data);
+            }
+            break;
         case 'users/register':
             if ($method == 'POST') {
                 $this->handleRegisterUser($user, $data);
@@ -67,6 +72,14 @@ class UserController {
       return $token;
   }
 
+  private function verifyData($data){
+    if (!$data) {
+        http_response_code(400);
+        echo json_encode('INVALID PARAMETERS!');
+        return;
+    }
+  }
+
   private function handleGetAllUsers($user) {
     $response = $user->getAllUsers();
     http_response_code(200);
@@ -74,12 +87,17 @@ class UserController {
     return;
   }
 
+  private function handleGetUser($user, $data) {
+    $this->verifyData($data);
+    
+    $response = $user->getUserByEmail($data);
+    http_response_code(200);
+    echo json_encode($response);
+    return;
+  }
+
   private function handleRegisterUser($user, $data) {
-    if (!$data) {
-        http_response_code(400);
-        echo json_encode('INVALID PARAMETERS!');
-        return;
-    }
+    $this->verifyData($data);
 
     $response = $user->insertUser($data);
     http_response_code(201);
@@ -88,13 +106,8 @@ class UserController {
   }
   
  
-private function handleUserLogin($user, $data)
-{
-    if (!$data) {
-        http_response_code(400);
-        echo json_encode('INVALID PARAMETERS!');
-        return;
-    }
+private function handleUserLogin($user, $data) {
+    $this->verifyData($data);
 
     $response = $user->verify($data);
 
@@ -143,11 +156,7 @@ private function handleUserLogin($user, $data)
 
   private function handleUpdateUser($user, $data) {
     
-    if (!$data) {
-        http_response_code(400);
-        echo json_encode('INVALID PARAMETERS!');
-        return;
-    }
+    $this->verifyData($data);
 
     $response = $user->UpdateUser($data);
     if($response) {
