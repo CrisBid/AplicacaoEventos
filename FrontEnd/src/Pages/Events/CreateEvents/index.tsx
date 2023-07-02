@@ -1,11 +1,16 @@
 import React, { useState, ChangeEvent } from 'react';
 import api from '../../../api/axios';
-import './styles.css'
+import './styles.css';
 
 interface Event {
   name: string;
   date: string;
   location: string;
+  description: string;
+  time: string;
+  category: string;
+  price: number;
+  img: string;
 }
 
 const CreateEventPage: React.FC = () => {
@@ -13,6 +18,11 @@ const CreateEventPage: React.FC = () => {
     name: '',
     date: '',
     location: '',
+    description: '',
+    time: '',
+    category: '',
+    price: 0,
+    img: '',
   });
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -25,7 +35,7 @@ const CreateEventPage: React.FC = () => {
 
   const handleCreateEvent = () => {
     api
-      .post('/api/events', event)
+      .post('events/create', event)
       .then((response) => {
         // Lógica após a criação do evento bem-sucedida
         console.log(response.data); // Exemplo: exibir dados da resposta
@@ -50,6 +60,15 @@ const CreateEventPage: React.FC = () => {
           />
         </div>
         <div className="form-group">
+          <label>Descrição</label>
+          <input
+            type="text"
+            name="description"
+            value={event.description}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="form-group">
           <label>Data</label>
           <input
             type="date"
@@ -59,11 +78,47 @@ const CreateEventPage: React.FC = () => {
           />
         </div>
         <div className="form-group">
+          <label>Hora</label>
+          <input
+            type="time"
+            name="time"
+            value={event.time}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="form-group">
           <label>Localização</label>
           <input
             type="text"
             name="location"
             value={event.location}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="form-group">
+          <label>Categoria</label>
+          <input
+            type="text"
+            name="category"
+            value={event.category}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="form-group">
+          <label>Preço</label>
+          <input
+            type="number"
+            name="price"
+            value={event.price}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="form-group">
+          <label>Imagem</label>
+          <input
+            type="text"
+            name="img"
+            value={event.img}
             onChange={handleInputChange}
           />
         </div>

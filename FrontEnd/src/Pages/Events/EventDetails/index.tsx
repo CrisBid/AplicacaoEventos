@@ -30,7 +30,7 @@ const EventDetailsPage: React.FC = () => {
 
   const fetchEvent = async () => {
     try {
-      const response = await api.get(`/events/${eventId}`);
+      const response = await api.post('events/search', {id:eventId});
       setEvent(response.data);
     } catch (error) {
       console.error(error);
@@ -40,8 +40,8 @@ const EventDetailsPage: React.FC = () => {
   const handleRegistration = async () => {
     try {
       // Send a POST request to your backend API to register the user for the event
-      const response = await api.post('events/registrations', {
-        eventId: eventId,
+      const response = await api.post('events/registered', {
+        id: eventId,
         userId: 'currentUserId', // Replace with the actual user ID or a session/user authentication mechanism
       });
       
