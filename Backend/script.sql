@@ -1,4 +1,4 @@
-
+ 
 CREATE DATABASE IF NOT EXISTS db_rio_eventos;
 
 USE db_rio_eventos;

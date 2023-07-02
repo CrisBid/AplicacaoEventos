@@ -28,6 +28,11 @@ class Events {
     
         $queryParams = array();
         $whereClauses = array();
+
+        if (isset($data['id'])) {
+            $whereClauses[] = 'id = :id';
+            $queryParams[':id'] = $data['id'];
+        }        
     
         if (isset($data['name'])) {
             $whereClauses[] = 'name LIKE :name';
