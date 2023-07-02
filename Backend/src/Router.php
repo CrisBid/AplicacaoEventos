@@ -1,7 +1,10 @@
 <?php
-
 namespace App;
 header('Content-Type: application/json');
+header("Access-Control-Allow-Origin: http://localhost:5173");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, Accept, Access-Control-Allow-Origin");
+header("Access-Control-Allow-Credentials: true");
 
 use App\Controllers\UserController;
 use JWT\JWT;
@@ -19,17 +22,17 @@ class Router {
     }
 
     public function handleRequest() {
-
-    if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-        http_response_code(200);
         
-        if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
+        if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+          http_response_code(200);
+        
+          if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
             header("Access-Control-Allow-Methods: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']}");
-        if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
+          if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
             header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
         
-        exit(0);
-    }
+          exit(0);
+        }
     $requestMethod = $_SERVER['REQUEST_METHOD'];
 
     $requestUrl = $_GET['url'];
