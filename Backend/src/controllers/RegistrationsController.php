@@ -38,6 +38,12 @@ class RegistrationsController {
             }
             break;
 
+        case 'events/validation':
+            if($method == 'POST') {
+                $this->handleEventsValidation($registrations, $data,);
+            }
+            break;
+
         default:
             http_response_code(404);
             echo json_encode('Endpoint not found! or not handle that kind of http request');
@@ -122,6 +128,21 @@ class RegistrationsController {
             http_response_code(404);
             echo json_encode('NOT FOUND');
         }        
+    }
+
+    private function handleEventsValidation($data, $registrations){
+        $this->verifyData($data);
+    
+        $response = $registrations->isUserRegisteredForEvent($data);
+        if($response) {
+            http_response_code(200);
+            echo json_encode($response);
+        }
+        else {
+            http_response_code(404);
+            echo json_encode('NOT REGISTERED');
+            return;
+        }
     }
 }  
 

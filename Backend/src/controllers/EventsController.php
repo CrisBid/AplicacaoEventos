@@ -37,12 +37,6 @@ class EventsController {
                 $this->handleSearchEvent($data, $events);
             }
             break;
-
-        case 'events/valida':
-            if($method == 'POST') {
-                $this->handleEventsValidation($data, $events);
-            }
-            break;
         default:
             http_response_code(404);
             echo json_encode('Endpoint not found! or not handle that kind of http request');
@@ -125,22 +119,6 @@ class EventsController {
     }
     return;
   }
-
-  private function handleEventsValidation($data, $events){
-    $this->verifyData($data);
-
-    $response = $events->eventValidate($data);
-    if($response) {
-        http_response_code(200);
-        echo json_encode($response);
-    }
-    else {
-        http_response_code(404);
-        echo json_encode('NOT REGISTERED');
-        return;
-    }
-  }
-
 
 }
   
