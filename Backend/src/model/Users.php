@@ -91,21 +91,28 @@ class Users {
         }
     }
 
-    public static function deleteUser($data) {
+    public static function deleteUser($userId) {
         $dbConn = Conn::getConnection();
-
-        $sql = 'DELETE FROM '.self::$table.' WHERE email = :em';
-        $stmt = $dbConn->prepare($sql);
-        $stmt->bindValue(':em', $data['email']);
-        $stmt->execute();
-
-        if ($stmt->rowCount() > 0) {
+    
+        // Exclui os registros relacionados na tabela tb_reviews
+        $sqlReviews = 'DELETE FROM tb_reviews WHERE user_id = :id';
+        $stmtReviews = $dbConn->prepare($sqlReviews);
+        $stmtReviews->bindValue(':id', $userId);
+        $stmtReviews->execute();
+    
+        // Exclui o usuário na tabela tb_users
+        $sqlUser = 'DELETE FROM ' . self::$table . ' WHERE id = :id';
+        $stmtUser = $dbConn->prepare($sqlUser);
+        $stmtUser->bindValue(':id', $userId);
+        $stmtUser->execute();
+    
+        if ($stmtUser->rowCount() > 0) {
             return true;
-            
         } else {
             return false;
         }
     }
+    
 
     public static function UpdateUser($data) {
         $dbConn = Conn::getConnection();

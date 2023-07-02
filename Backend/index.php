@@ -28,11 +28,10 @@ $router->addRoute('POST', 'event/reviews', ReviewsController::class);// mandar o
 $router->addRoute('POST', 'user/reviews', ReviewsController::class); // mandar o id do evento [eventId] no body do request    
 
 
-
 //users (Participante pode cadastrar, logar, deletar sua conta, editar sua info)
 $router->addRoute('POST', 'users/register', UserController::class); // url: /users -- OK
 $router->addRoute('POST', 'users/login', UserController::class); // url: /users -- OK
-$router->addRoute('DELETE', 'users/delete', UserController::class); //Mandar o email do user no body do request com verbo DELETE -- OK 
+$router->addRoute('DELETE', 'users/delete/{id}', UserController::class); //Mandar o email do user no body do request com verbo DELETE -- OK 
 $router->addRoute('PUT', 'users/update', UserController::class); //Mandar o todos os dados, até os que não mudaram no body do request com verbo PUT -- OK 
 
 
