@@ -20,6 +20,16 @@ class Router {
 
     public function handleRequest() {
 
+    if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+        http_response_code(200);
+        
+        if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
+            header("Access-Control-Allow-Methods: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']}");
+        if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
+            header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
+        
+        exit(0);
+    }
     $requestMethod = $_SERVER['REQUEST_METHOD'];
 
     $requestUrl = $_GET['url'];
