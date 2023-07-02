@@ -7,29 +7,34 @@ header {
   padding: 20px;
   justify-content: space-between;
   align-items: center;
-  padding-left: 5vw;
-  padding-right: 5vw;
+  padding-left: 10vw;
+  padding-right: 10vw;
 }
 
 header h1 {
-  margin: 0;
+  margin-right: 1vw;
+  margin-left: 1vw;
 }
 
 header nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   margin-top: 10px;
+  margin-left: 8vw;
 }
 
 header ul {
   display: flex;
   flex-direction: row;
   list-style-type: none;
-  margin: 0;
-  padding: 0;
 }
 
 header nav a {
   color: #fff;
-  margin-right: 20px;
+  margin-right: 1vw;
+  margin-left: 1vw;
   text-decoration: none;
   font-weight: bold;
 }
@@ -37,16 +42,14 @@ header nav a {
 .login-menu{
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-items: center;
 }
 
 .login-button{
   display: flex;
   width: 5vw;
-  border-radius: 10px;
-  margin-left: 1vw;
   margin-right: 1vw;
+  margin-left: 1vw;
+  border-radius: 10px;
   justify-content: center;
   text-decoration: none;
   color: #fff;
