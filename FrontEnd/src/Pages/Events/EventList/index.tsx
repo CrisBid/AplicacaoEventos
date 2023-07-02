@@ -1,13 +1,18 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import './styles.css'
+import api from '../../../api/axios';
 
 interface Event {
   id: number;
-  title: string;
+  name: string;
   description: string;
+  date: string;
+  time: string;
+  price: string;
+  local: string;
   category: string;
+  img: string;
   // Add other event properties here
 }
 
@@ -22,7 +27,8 @@ const EventListPage: React.FC = () => {
 
   const fetchEvents = async () => {
     try {
-      const response = await axios.get('/api/events');
+      const response = await api.get('/events');
+      console.log(response.data[0]);
       setEvents(response.data);
     } catch (error) {
       console.error(error);
@@ -38,7 +44,7 @@ const EventListPage: React.FC = () => {
   };
 
   const filteredEvents = events.filter((event) =>
-    event.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
+    event.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
     (selectedCategory === '' || event.category === selectedCategory)
   );
 
@@ -69,18 +75,16 @@ const EventListPage: React.FC = () => {
         </div>
       </div>
       <div className="bodycontainer">
-        <ul>
-          {filteredEvents.map((event) => (
-            <li key={event.id}>
-              <h3>{event.title}</h3>
-              <p>{event.description}</p>
-              <p>Category: {event.category}</p>
-              <Link to={`/events/${event.id}`}>
-                <button>Saiba mais</button>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        {filteredEvents.map((event) => (
+          <div key={event.id} className='eventcontainer'>
+            <h3>{event.name}</h3>
+            <p>{event.description}</p>
+            <p>Category: {event.category}</p>
+            <Link to={`/events/${event.id}`}>
+              <button className='eventbutton'>Saiba mais</button>
+            </Link>
+          </div>
+        ))}
         <Link to="/eventcreate" className="create-event-button">Criar Evento</Link>
       </div>
     </div>

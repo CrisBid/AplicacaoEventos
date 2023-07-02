@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Model\Registrations;
 
+header("Access-Control-Allow-Origin: *");
 header('Content-Type: application/json');
 
 class RegistrationsController {

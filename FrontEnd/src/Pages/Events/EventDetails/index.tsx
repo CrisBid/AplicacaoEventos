@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import MapComponent from '../../../Components/MapComponent';
+import api from '../../../api/axios';
 
 interface Event {
   id: number;
@@ -29,7 +30,7 @@ const EventDetailsPage: React.FC = () => {
 
   const fetchEvent = async () => {
     try {
-      const response = await axios.get(`/api/events/${eventId}`);
+      const response = await api.get(`/events/${eventId}`);
       setEvent(response.data);
     } catch (error) {
       console.error(error);
@@ -39,7 +40,7 @@ const EventDetailsPage: React.FC = () => {
   const handleRegistration = async () => {
     try {
       // Send a POST request to your backend API to register the user for the event
-      const response = await axios.post('/api/registrations', {
+      const response = await api.post('events/registrations', {
         eventId: eventId,
         userId: 'currentUserId', // Replace with the actual user ID or a session/user authentication mechanism
       });

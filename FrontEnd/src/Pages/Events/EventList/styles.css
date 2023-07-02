@@ -80,7 +80,24 @@ li p {
 
 .bodycontainer{
   display: flex;
+  flex-direction: column;
   height: 100%;
+}
+
+.eventcontainer{
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 5vh;
+  padding: 2rem;
+  list-style: none;
+  border: solid #fff;
+  border-radius: 15px;
+  color: white;
+  text-align: center;
+}
+
+.eventbutton{
+  margin-top: 2vh;
 }
 
 .create-event-button{

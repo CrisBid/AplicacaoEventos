@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Model\Events;
 
+header("Access-Control-Allow-Origin: *");
 header('Content-Type: application/json');
 
 class EventsController {
