@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './styles.css';
+import api from '../../api/axios';
 
 interface Event {
   id: string;
@@ -56,12 +57,25 @@ const AdminDashboardPage: React.FC<AdminDashboardProps> = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('/api/users');
+      const response = await api.get('/users');
       const userList = response.data;
       setUsers(userList);
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleDeleteUser = async (userId: string) => {
+    try {
+      await api.delete('users/delete', {id:userId});
+      fetchUsers();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleModifyUser = async (userId: string) => {
+    // Lógica para modificar o usuário
   };
 
   return (
@@ -87,7 +101,13 @@ const AdminDashboardPage: React.FC<AdminDashboardProps> = () => {
         <h2>Users</h2>
         <ul>
           {users.map((user) => (
-            <li key={user.id}>{user.name}</li>
+            <div key={user.id} className='userlist-container'>
+              {user.name}
+              <div className='button-container'>
+                <button onClick={() => handleDeleteUser(user.id)}>Deletar</button>
+                <button onClick={() => handleModifyUser(user.id)}>Modificar</button>
+              </div>
+            </div>
           ))}
         </ul>
       </div>
