@@ -28,12 +28,12 @@ class Events {
     
         $queryParams = array();
         $whereClauses = array();
-    
+
         if (isset($data['id'])) {
             $whereClauses[] = 'id = :id';
             $queryParams[':id'] = $data['id'];
-        }     
-
+        }        
+    
         if (isset($data['name'])) {
             $whereClauses[] = 'name LIKE :name';
             $queryParams[':name'] = '%' . $data['name'] . '%';
@@ -145,23 +145,6 @@ class Events {
             return true;
         } else {
             return false;
-        }
-    }
-
-    public static function eventValidation(){
-        $dbConn = Conn::getConnection();
-
-        $sql = 'SELECT * FROM '.self::$table;
-        $stmt = $dbConn->prepare($sql);
-        $stmt->execute();
-
-
-        if($stmt->rowCount() > 0) {
-            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-            
-        }
-        else{
-            throw new Exception("There no events in database!");
         }
     }
 

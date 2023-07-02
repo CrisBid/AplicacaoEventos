@@ -41,23 +41,29 @@ class Registrations {
         }
     }
 
-    public static function getUsersByEvent($data) {
+    public static function isUserRegisteredForEvent($data) {
         $dbConn = Conn::getConnection();
     
-        $sql = 'SELECT u.* FROM tb_users u
+        $sql = 'SELECT COUNT(*) FROM tb_users u
                 INNER JOIN user_event ue ON u.id = ue.user_id
-                WHERE ue.event_id = :eid';
+                WHERE ue.event_id = :eid
+                AND u.id = :userId';
     
         $stmt = $dbConn->prepare($sql);
         $stmt->bindParam(':eid', $data['eventId'], PDO::PARAM_INT);
+        $stmt->bindParam(':userId', $data['userId'], PDO::PARAM_INT);
         $stmt->execute();
     
-        if ($stmt->rowCount() > 0) {
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } else {
+        $rowCount = $stmt->fetchColumn();
+
+        if($rowCount > 0) {
+          return true;  
+        }
+        else {
             return false;
         }
     }
+    
 
     public static function registrate($data){
         $dbConn = Conn::getConnection();
