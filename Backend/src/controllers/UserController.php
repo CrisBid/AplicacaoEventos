@@ -6,7 +6,6 @@ use App\Model\Users;
 use Firebase\JWT\JWT;
 use Exception;
 
-header("Access-Control-Allow-Origin: *");
 header('Content-Type: application/json');
 
 class UserController {

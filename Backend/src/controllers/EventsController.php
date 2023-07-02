@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Model\Events;
 
-header("Access-Control-Allow-Origin: *");
 header('Content-Type: application/json');
 
 class EventsController {
@@ -35,7 +34,13 @@ class EventsController {
             break;
         case 'events/search':
             if($method == 'POST') {
-                $this->handleSearchEvent($data, $route, $events);
+                $this->handleSearchEvent($data, $events);
+            }
+            break;
+
+        case 'events/valida':
+            if($method == 'POST') {
+                $this->handleEventsValidation($data, $events);
             }
             break;
         default:
@@ -96,10 +101,10 @@ class EventsController {
     }
   }
 
-  private function handleSearchEvent($data, $route, $events){
+  private function handleSearchEvent($data, $events){
     $this->verifyData($data);
 
-    $response = $events->eventFilter($data, $route);
+    $response = $events->eventFilter($data);
     if($response) {
         http_response_code(200);
         echo json_encode($response);
@@ -120,6 +125,22 @@ class EventsController {
     }
     return;
   }
+
+  private function handleEventsValidation($data, $events){
+    $this->verifyData($data);
+
+    $response = $events->eventValidate($data);
+    if($response) {
+        http_response_code(200);
+        echo json_encode($response);
+    }
+    else {
+        http_response_code(404);
+        echo json_encode('NOT REGISTERED');
+        return;
+    }
+  }
+
 
 }
   

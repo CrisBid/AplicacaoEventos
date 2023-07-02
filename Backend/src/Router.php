@@ -83,40 +83,40 @@ class Router {
         return $_POST; 
     }
 
-    // public function Auth($controller, $token) {
+    public function Auth($controller, $token) {
 
-    //     $decodedToken = $controller->decodeToken($token);
+        $decodedToken = $controller->decodeToken($token);
 
-    //     if ($decodedToken !== null) {
-    //         switch ($decodedToken->role) {
-    //             case 'org':
-    //                 // Acesso para a role 'org'
-    //                 // Defina as rotas permitidas para a role 'org'
-    //                 break;
-    //             case 'part':
-    //                 // Acesso para a role 'part'
-    //                 // Defina as rotas permitidas para a role 'part'
-    //                 break;
-    //             case 'admin':
-    //                 // Acesso para a role 'admin'
-    //                 // Defina as rotas permitidas para a role 'admin'
-    //                 break;
-    //             default:
-    //                 // Acesso negado para outras roles não especificadas
-    //                 http_response_code(403);
-    //                 echo json_encode('Access denied');
-    //                 return;
-    //         }
-    //     } else {
-    //         // Acesso negado quando o token não é válido ou a chave de acesso está incorreta
-    //         http_response_code(401);
-    //         echo json_encode('Invalid token or access key');
-    //         return;
-    //     }
+        if ($decodedToken !== null) {
+            switch ($decodedToken->role) {
+                case 'org':
+                    // Acesso para a role 'org'
+                    // Defina as rotas permitidas para a role 'org'
+                    break;
+                case 'part':
+                    // Acesso para a role 'part'
+                    // Defina as rotas permitidas para a role 'part'
+                    break;
+                case 'admin':
+                    // Acesso para a role 'admin'
+                    // Defina as rotas permitidas para a role 'admin'
+                    break;
+                default:
+                    // Acesso negado para outras roles não especificadas
+                    http_response_code(403);
+                    echo json_encode('Access denied');
+                    return;
+            }
+        } else {
+            // Acesso negado quando o token não é válido ou a chave de acesso está incorreta
+            http_response_code(401);
+            echo json_encode('Invalid token or access key');
+            return;
+        }
 
-    //     // O token é válido e a chave de acesso está correta
-    //     // Prossiga para lidar com a solicitação normalmente
-    //     $this->handleRequest();
-    // }
+        // O token é válido e a chave de acesso está correta
+        // Prossiga para lidar com a solicitação normalmente
+        $this->handleRequest();
+    }
 
 }

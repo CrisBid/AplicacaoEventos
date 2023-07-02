@@ -4,7 +4,7 @@ require_once "vendor/autoload.php";
 
 header("Access-Control-Allow-Origin: http://localhost:5173");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, Accept");
 header("Access-Control-Allow-Credentials: true");
 
 use App\Router;
@@ -35,12 +35,15 @@ $router->addRoute('POST', 'users/login', UserController::class); // url: /users 
 $router->addRoute('DELETE', 'users/delete', UserController::class); //Mandar o email do user no body do request com verbo DELETE -- OK 
 $router->addRoute('PUT', 'users/update', UserController::class); //Mandar o todos os dados, até os que não mudaram no body do request com verbo PUT -- OK 
 
+
 //events (Organizador pode criar, deletar, editar. Participante pode procurar por um evento)
 $router->addRoute('GET', 'events', EventsController::class); // url: /events -- OK
 $router->addRoute('POST', 'events/create', EventsController::class); // url: /events, mandar a url da imagem no json -- OK
 $router->addRoute('DELETE', 'events/delete', EventsController::class); // url: /events, mandar o email no body do request com verbo DELETE -- OK
 $router->addRoute('POST', 'events/search', EventsController::class); // url: /events/search -- mandar o name OU description OU local OU date ou category do evento no body
 $router->addRoute('PUT', 'events/update', EventsController::class); // url: /events/update -- //Mandar o todos os dados, até os que não mudaram no body do request com verbo PUT -- OK 
+$router->addRoute('POST', 'events/validation', EventsController::class); // url: /events/validation -- /mandar o id do user e o do event;
+
 
 //subscriptions (Organizador e participante podem inscrever e desinscrever de um evento)
 $router->addRoute('POST', 'events/registrate', RegistrationsController::class); // passar o userId(escrito desse jeito)) e o eventId(desse jeito) para inscrever em um evento
