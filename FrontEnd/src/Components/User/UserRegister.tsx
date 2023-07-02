@@ -28,14 +28,10 @@ const Register: React.FC = () => {
       password: password,
       role: 'admin', 
     };
-  
-    const headers = {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': 'http://localhost:5173' // Substitua pela URL correta do seu frontend
-    };
+
   
     try {
-      const response = await axios.post('http://backend.test/users/register', data, { headers });
+      const response = await api.post('users/register', data);
       // Lógica após o registro bem-sucedido
       setRegisterdata(response.data.id);
       console.log(response.data); // Exemplo: exibir dados da resposta
