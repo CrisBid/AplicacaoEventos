@@ -9,7 +9,6 @@ use App\Controllers\RegistrationsController;
 use App\Controllers\ReviewsController;
 
 
-
 $router = new Router();
 
 //admin (Deleta, cria, atualiza eventos, , pode procurar um usuario, ver uma lista de todos eles, pode procurar um evento, ver todos os eventos, ver quantos quais pessoas estão em um evento etc)

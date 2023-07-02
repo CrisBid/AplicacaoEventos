@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import MapComponent from '../../Components/MapComponent';
+import MapComponent from '../../../Components/MapComponent';
 
 interface Event {
   id: number;
@@ -12,10 +12,14 @@ interface Event {
   location: string;
   category: string;
   price: number;
+  latitude: number;
+  longitude: number;
 }
 
+type EventParams = Record<string, string>;
+
 const EventDetailsPage: React.FC = () => {
-  const { eventId } = useParams<{ eventId: string }>();
+  const { eventId } = useParams<EventParams>();
   const [event, setEvent] = useState<Event | null>(null);
   const [isRegistered, setIsRegistered] = useState(false);
 

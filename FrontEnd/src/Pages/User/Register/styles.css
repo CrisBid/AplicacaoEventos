@@ -1,0 +1,10 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.RegisterContainer{
+    display: flex;
+    height: 100vh;
+    background-color: #111;
+}

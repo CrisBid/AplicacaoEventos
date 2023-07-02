@@ -1,0 +1,42 @@
+.admin-dashboard-container {
+    display: flex;
+    flex-direction: column;
+    padding-top: 5vh;
+    padding-left: 5vw;
+    padding-right: 5vw;
+    background-color: #111;
+    height: 85vh;
+  }
+  
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .dashboard-section {
+    margin-bottom: 40px;
+  }
+  
+  h2 {
+    color: white;
+    margin-bottom: 10px;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  li {
+    margin-bottom: 5px;
+  }
+  
+  li::before {
+    content: '• ';
+    color: #007bff;
+  }
+  
+  li:last-child {
+    margin-bottom: 0;
+  }
+  

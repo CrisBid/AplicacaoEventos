@@ -1,10 +1,10 @@
 import React from 'react';
-import Login from '../../Components/UserLogin';
+import Login from '../../../Components/User/UserLogin';
 import './styles.css'
 
 const LoginPage: React.FC = () => {
   return (
-    <div>
+    <div className='LoginContainer'>
       <Login />
     </div>
   );

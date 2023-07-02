@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import './UserLoginStyles.css'
+import api from '../../api/axios';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -16,7 +16,7 @@ const Login: React.FC = () => {
 
   const handleLogin = () => {
     // Fazer a chamada para o backend PHP para autenticar o usuário
-    axios
+    api
       .post('/api/login', { email, password })
       .then((response) => {
         // Lógica após o login bem-sucedido

@@ -1,0 +1,100 @@
+.container{
+  display: flex;
+  background-color: #111;
+  flex-direction: column;
+  width: 100%;
+  height: 89vh;
+}
+.headercontainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  margin-top: 3vh;
+}
+  
+h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-input {
+  width: 40vw;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  margin-right: 10px;
+  margin-top: 3vh;
+}
+
+.category-select {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  margin-bottom: 20px;
+}
+
+li h3 {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+li p {
+  margin: 0;
+}
+
+.saiba-mais-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.saiba-mais-button:hover {
+  background-color: #0056b3;
+}
+
+.saiba-mais-button:focus {
+  outline: none;
+}
+
+.bodycontainer{
+  display: flex;
+  height: 100%;
+}
+
+.create-event-button{
+  display: flex;
+  height: 3vh;
+  padding-right: 3vw;
+  padding-left: 3vw;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+  border-radius: 10px;
+  background-color: transparent;
+  border-color: #fff;
+  border-style: solid;
+  text-decoration: none;
+  color: #fff;
+}
+  
