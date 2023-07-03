@@ -94,24 +94,25 @@ class Users {
     public static function deleteUser($userId) {
         $dbConn = Conn::getConnection();
     
-        // Exclui os registros relacionados na tabela tb_reviews
-        $sqlReviews = 'DELETE FROM tb_reviews WHERE user_id = :id';
-        $stmtReviews = $dbConn->prepare($sqlReviews);
-        $stmtReviews->bindValue(':id', $userId);
-        $stmtReviews->execute();
+        // Delete the user's associated records in the user_event table
+        $sqlDeleteUserEvent = 'DELETE FROM user_event WHERE user_id = :id';
+        $stmtDeleteUserEvent = $dbConn->prepare($sqlDeleteUserEvent);
+        $stmtDeleteUserEvent->bindValue(':id', $userId);
+        $stmtDeleteUserEvent->execute();
     
-        // Exclui o usuário na tabela tb_users
-        $sqlUser = 'DELETE FROM ' . self::$table . ' WHERE id = :id';
-        $stmtUser = $dbConn->prepare($sqlUser);
-        $stmtUser->bindValue(':id', $userId);
-        $stmtUser->execute();
+        // Delete the user from the tb_users table
+        $sqlDeleteUser = 'DELETE FROM ' . self::$table . ' WHERE id = :id';
+        $stmtDeleteUser = $dbConn->prepare($sqlDeleteUser);
+        $stmtDeleteUser->bindValue(':id', $userId);
+        $stmtDeleteUser->execute();
     
-        if ($stmtUser->rowCount() > 0) {
+        if ($stmtDeleteUser->rowCount() > 0) {
             return true;
         } else {
             return false;
         }
     }
+    
     
 
     public static function UpdateUser($data) {
