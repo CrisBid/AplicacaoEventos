@@ -66,7 +66,11 @@ class Router {
                         }
 
                         $urlParameters = $this->getUrlParameters($route['path'], $requestUrl);
-                        $data = array_merge($data, $urlParameters);
+                        if ($urlParameters && $data !== null) {
+                            $data = array_merge($data, $urlParameters);
+                        } elseif ($urlParameters) {
+                            $data = $urlParameters;
+                        }
                 
                         $controller->handle($requestMethod, $data, $requestUrl);
                         return;
