@@ -106,7 +106,7 @@ class Registrations {
         $stmt->bindParam(':eventId', $data['eventId'], PDO::PARAM_INT);
 
         if ($stmt->execute()) {
-            return 1;
+            return true;
         } else {
            
             return false;

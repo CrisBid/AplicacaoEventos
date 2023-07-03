@@ -106,8 +106,7 @@ class RegistrationsController {
             http_response_code(401);
             echo json_encode('FORBIDDEN! User already registed for this event');
         }
-
-        if($response === 1) {
+        else if($response) {
             http_response_code(201);
         }
         else{
@@ -130,7 +129,7 @@ class RegistrationsController {
         }        
     }
 
-    private function handleEventsValidation($data, $registrations){
+    private function handleEventsValidation($registrations, $data){
         $this->verifyData($data);
     
         $response = $registrations->isUserRegisteredForEvent($data);
