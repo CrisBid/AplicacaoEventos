@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import './UserRegisterStyles.css';
 import api from '../../api/axios';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Register: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [registerdata, setRegisterdata] = useState('');
+  const navigate = useNavigate();
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
@@ -35,6 +36,7 @@ const Register: React.FC = () => {
       // Lógica após o registro bem-sucedido
       setRegisterdata(response.data.id);
       console.log(response.data); // Exemplo: exibir dados da resposta
+      navigate('/login');
     } catch (error) {
       // Lógica em caso de erro de registro
       console.error(error);

@@ -67,7 +67,7 @@ const AdminDashboardPage: React.FC<AdminDashboardProps> = () => {
 
   const handleDeleteUser = async (userId: string) => {
     try {
-      await api.delete('users/delete', {id:userId});
+      await api.delete(`users/delete/${userId}`);
       fetchUsers();
     } catch (error) {
       console.error(error);

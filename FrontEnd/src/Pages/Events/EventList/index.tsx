@@ -2,6 +2,7 @@ import React, { useState, useEffect, ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 import './styles.css'
 import api from '../../../api/axios';
+import defaultAvatar from '../../../Images/Event.jpg';
 
 interface Event {
   id: number;
@@ -28,7 +29,6 @@ const EventListPage: React.FC = () => {
   const fetchEvents = async () => {
     try {
       const response = await api.get('/events');
-      console.log(response.data[0]);
       setEvents(response.data);
     } catch (error) {
       console.error(error);
@@ -43,10 +43,15 @@ const EventListPage: React.FC = () => {
     setSelectedCategory(event.target.value);
   };
 
-  const filteredEvents = events.filter((event) =>
-    event.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-    (selectedCategory === '' || event.category === selectedCategory)
-  );
+  let filteredEvents: Event[] = [];
+  if (events.length > 0) {
+    filteredEvents = events.filter((event) =>
+      event.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      (selectedCategory === '' || event.category === selectedCategory)
+    );
+  }
+
+  const imgSrc = defaultAvatar;
 
   return (
     <div className="container">
@@ -67,25 +72,36 @@ const EventListPage: React.FC = () => {
             onChange={handleCategoryChange}
             className="category-select"
           >
-              <option value="">All Categories</option>
-              <option value="parties">Parties</option>
-              <option value="bars">Bars</option>
-              <option value="shows">Shows</option>
+            <option value="">All Categories</option>
+            <option value="parties">Parties</option>
+            <option value="bars">Bars</option>
+            <option value="shows">Shows</option>
           </select>
         </div>
       </div>
       <div className="bodycontainer">
-        {filteredEvents.map((event) => (
-          <div key={event.id} className='eventcontainer'>
-            <h3>{event.name}</h3>
-            <p>{event.description}</p>
-            <p>Category: {event.category}</p>
-            <Link to={`/events/${event.id}`}>
-              <button className='eventbutton'>Saiba mais</button>
-            </Link>
+        {filteredEvents.length > 0 ? (
+          filteredEvents.map((event) => (
+            <div key={event.id} className='eventcontainer'>
+              <div className="EventImg_Container">
+                <img className="EventImg" src={event.img || imgSrc} alt="EventImg" />
+              </div>
+              <div className='eventtextscontainer'>
+                <h3>{event.name}</h3>
+                <p>{event.description}</p>
+                <p>Category: {event.category}</p>
+                <Link to={`/events/${event.id}`}>
+                  <button className='eventbutton'>Saiba mais</button>
+                </Link>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="no-events-container">
+            <p>Não há eventos disponíveis.</p>
           </div>
-        ))}
-        <Link to="/eventcreate" className="create-event-button">Criar Evento</Link>
+        )}
+          <Link to="/eventcreate" className="create-event-button">Criar Evento</Link>
       </div>
     </div>
   );

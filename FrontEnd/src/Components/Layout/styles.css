@@ -119,6 +119,14 @@ header nav a {
   margin-bottom: 2vh;
 }
 
+.dropdown_menuContainer_button{
+  background-color: transparent;
+}
+
+.dropdown_menuContainer_button:hover{
+  background-color: transparent;
+}
+
 .dropdown-menu a {
   color: #fff;
   text-decoration: none;
