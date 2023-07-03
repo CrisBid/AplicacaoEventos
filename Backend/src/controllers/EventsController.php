@@ -16,6 +16,11 @@ class EventsController {
                 $this->handleGetAllEvents($events);
             }
             break;
+        case 'events/details/' . $data['id']:
+            if ($method == 'GET') {
+                $this->handlegetEventDetails($events, $data['id']);
+            }
+            break;
         case 'events/create':
             if ($method == 'POST') {
                 $this->handleCreateEvent($events, $data);
@@ -64,6 +69,21 @@ class EventsController {
         echo json_encode('Not Found!');
         return;
     }
+  }
+
+  private function handlegetEventDetails($events, $eventId) {
+    $this->verifyData($eventId);
+    
+    $response = $events->getEventById($eventId);
+    if($response) {
+        http_response_code(200);
+        echo json_encode($response);
+    }
+    else {
+        http_response_code(404);
+        return;
+    }
+
   }
 
   private function handleCreateEvent($events, $data) {

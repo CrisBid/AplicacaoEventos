@@ -23,6 +23,33 @@ class Events {
         }
     }
 
+    public static function getEventById($eventId) {
+        $dbConn = Conn::getConnection();
+    
+        $queryParams = array();
+        $whereClauses = array();
+
+        if (isset($eventId)) {
+            $whereClauses[] = 'id = :id';
+            $queryParams[':id'] = $eventId;
+        }
+
+        $whereClause = '';
+        if (!empty($whereClauses)) {
+            $whereClause = 'WHERE ' . implode(' OR ', $whereClauses);
+        }
+    
+        $sql = 'SELECT * FROM ' . self::$table . ' ' . $whereClause;
+        $stmt = $dbConn->prepare($sql);
+        $stmt->execute($queryParams);
+    
+        if ($stmt->rowCount() > 0) {
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        } else {
+            return false; 
+        }
+    }
+    
     public static function eventFilter($data) {
         $dbConn = Conn::getConnection();
     

@@ -42,11 +42,14 @@ $router->addRoute('DELETE', 'events/delete/{id}', EventsController::class); // u
 $router->addRoute('POST', 'events/search', EventsController::class); // url: /events/search -- mandar o name OU description OU local OU date ou category do evento no body
 $router->addRoute('PUT', 'events/update', EventsController::class); // url: /events/update -- //Mandar o todos os dados, até os que não mudaram no body do request com verbo PUT -- OK 
 $router->addRoute('POST', 'events/validation', EventsController::class); // url: /events/validation -- /mandar o id do user e o do event;
-$router->addRoute('GET', 'events/registrations/user/{id}', RegistrationsController::class); //Mandar o todos os dados, até os que não mudaram no body do request com verbo PUT -- OK 
+$router->addRoute('GET', 'events/details/{id}', EventsController::class); //Mandar o todos os dados, até os que não mudaram no body do request com verbo PUT -- OK 
+
 
 //subscriptions (Organizador e participante podem inscrever e desinscrever de um evento)
 $router->addRoute('POST', 'events/registrate', RegistrationsController::class); // passar o userId(escrito desse jeito)) e o eventId(desse jeito) para inscrever em um evento
 $router->addRoute('POST', 'events/unregister', RegistrationsController::class); // passar o userId(escrito desse jeito)) e o eventId(desse jeito) para inscrever em um evento
+$router->addRoute('GET', 'events/registrations/user/{id}', RegistrationsController::class); //Mandar o todos os dados, até os que não mudaram no body do request com verbo PUT -- OK 
+
 
 //reviews
 $router->addRoute('POST', 'reviews/create', ReviewsController::class); // mandar todos os dados por json num post e retorna 200OK
