@@ -54,6 +54,16 @@ li:last-child {
   color: white;
 }
 
+.userlistinfo-container{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.userlistinfo-container p{
+  margin-bottom: 10px;
+}
+
 .button-container {
   display: flex;
   flex-direction: column;

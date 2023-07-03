@@ -28,7 +28,7 @@ const App: React.FC = () => {
           <Route index element={<Home />} />
           <Route path="home" element={<Home />} />
           <Route path="eventlist" element={<EventListPage/>} />
-          <Route path="/events/:eventId" element={<EventDetailsPage />} />
+          <Route path="events/:eventId" element={<EventDetailsPage />} />
           <Route path="eventcreate" element={<CreateEventPage/>} />
           <Route path="eventedit/:eventId" element={<EditEventPage />} />
           <Route path="profile" element={<UserProfilePage/>} />

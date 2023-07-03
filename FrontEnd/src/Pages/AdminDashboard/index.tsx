@@ -20,6 +20,15 @@ interface User {
   id: string;
   name: string;
   email: string;
+  role: string;
+}
+
+interface UserData {
+  id: number;
+  user: string;
+  email: string;
+  Authtoken: string;
+  avatar?: string;
 }
 
 interface AdminDashboardProps {}
@@ -28,16 +37,25 @@ const AdminDashboardPage: React.FC<AdminDashboardProps> = () => {
   const [events, setEvents] = useState<Event[]>([]);
   const [registrations, setRegistrations] = useState<Registration[]>([]);
   const [users, setUsers] = useState<User[]>([]);
+  const [userData, setUserData] = useState<UserData | undefined>();
 
   useEffect(() => {
-    fetchEvents();
-    fetchRegistrations();
+
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString) {
+      const userData: UserData = JSON.parse(userDataString);
+      // Redirecionar para a página de dashboard caso o usuário já esteja logado
+      setUserData(userData);
+    } 
+
+    fetchEvents(userData?.id);
+    fetchRegistrations(userData?.id);
     fetchUsers();
   }, []);
 
-  const fetchEvents = async () => {
+  const fetchEvents = async (userId: number | undefined) => {
     try {
-      const response = await axios.get('/api/events');
+      const response = await axios.get(`events/registrations/user/${userId}`);
       const eventList = response.data;
       setEvents(eventList);
     } catch (error) {
@@ -45,9 +63,9 @@ const AdminDashboardPage: React.FC<AdminDashboardProps> = () => {
     }
   };
 
-  const fetchRegistrations = async () => {
+  const fetchRegistrations = async (userId: number| undefined) => {
     try {
-      const response = await axios.get('/api/registrations');
+      const response = await axios.get(`events/registrations/user/${userId}`);
       const registrationList = response.data;
       setRegistrations(registrationList);
     } catch (error) {
@@ -102,7 +120,18 @@ const AdminDashboardPage: React.FC<AdminDashboardProps> = () => {
         <ul>
           {users.map((user) => (
             <div key={user.id} className='userlist-container'>
-              {user.name}
+              <div className='userlistinfo-container'>
+                <p>Nome</p>
+                <p>{user.name}</p>
+              </div>
+              <div className='userlistinfo-container'>
+                <p>Email</p>
+                <p>{user.email}</p>
+              </div>
+              <div className='userlistinfo-container'>
+                <p>Nivel de Acesso</p>
+                <p>{user.role}</p>
+              </div>
               <div className='button-container'>
                 <button onClick={() => handleDeleteUser(user.id)}>Deletar</button>
                 <button onClick={() => handleModifyUser(user.id)}>Modificar</button>

@@ -17,12 +17,27 @@ interface Event {
   // Add other event properties here
 }
 
+interface UserData {
+  id: number;
+  user: string;
+  email: string;
+  Authtoken: string;
+  avatar?: string;
+}
+
 const EventListPage: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [userData, setUserData] = useState<UserData | undefined>();
 
   useEffect(() => {
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString) {
+      const userData: UserData = JSON.parse(userDataString);
+      // Redirecionar para a página de dashboard caso o usuário já esteja logado
+      setUserData(userData);
+    } 
     fetchEvents();
   }, []);
 
@@ -43,6 +58,22 @@ const EventListPage: React.FC = () => {
     setSelectedCategory(event.target.value);
   };
 
+  const handleRegister = async (eventId: number) => {
+
+    const data = { 
+      userId: userData?.id, 
+      eventId: eventId 
+    };
+
+    try {
+      // Fazer chamada para a API para registrar o usuário no evento
+      await api.post('events/registrate', data);
+      console.log('Usuário registrado no evento com sucesso!');
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   let filteredEvents: Event[] = [];
   if (events.length > 0) {
     filteredEvents = events.filter((event) =>
@@ -56,7 +87,7 @@ const EventListPage: React.FC = () => {
   return (
     <div className="container">
       <div className="headercontainer">
-        <h1>Event List</h1>
+        <h1>Eventos</h1>
 
         <div className="search-container">
           <input
@@ -72,10 +103,17 @@ const EventListPage: React.FC = () => {
             onChange={handleCategoryChange}
             className="category-select"
           >
-            <option value="">All Categories</option>
-            <option value="parties">Parties</option>
-            <option value="bars">Bars</option>
-            <option value="shows">Shows</option>
+            <option value="">Todas as Categorias</option>
+            <option value="conferencias">Conferências</option>
+            <option value="festivais">Festivais</option>
+            <option value="concertos">Concertos</option>
+            <option value="feiras">Feiras</option>
+            <option value="palestras">Palestras</option>
+            <option value="workshops">Workshops</option>
+            <option value="exposicoes">Exposições</option>
+            <option value="eventos_esportivos">Eventos esportivos</option>
+            <option value="cursos_treinamentos">Cursos e treinamentos</option>
+            <option value="eventos_networking">Eventos de networking</option>
           </select>
         </div>
       </div>
@@ -89,10 +127,12 @@ const EventListPage: React.FC = () => {
               <div className='eventtextscontainer'>
                 <h3>{event.name}</h3>
                 <p>{event.description}</p>
+                <p>{event.date}:{event.time}</p>
                 <p>Category: {event.category}</p>
                 <Link to={`/events/${event.id}`}>
                   <button className='eventbutton'>Saiba mais</button>
                 </Link>
+                <button onClick={() => handleRegister(event.id)} className='eventbutton'>Registrar</button>
               </div>
             </div>
           ))

@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import defaultAvatar from '../../../Images/Profile.png';
 import './styles.css';
-import api from '../../../api/axios';
 
 interface UserData {
   id: number;

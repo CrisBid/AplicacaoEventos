@@ -28,13 +28,14 @@ const CreateEventPage: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = event.target;
     setEvent((prevEvent) => ({
       ...prevEvent,
-      [name]: value,
+      [name]: value
     }));
   };
+  
 
   const handleCreateEvent = () => {
     api
@@ -101,13 +102,26 @@ const CreateEventPage: React.FC = () => {
         </div>
         <div className="form-group">
           <label>Categoria</label>
-          <input
-            type="text"
-            name="category"
+          <select
             value={event.category}
-            onChange={handleInputChange}
-          />
+            onChange={(event) => handleInputChange(event)}
+            className="category-select"
+            name="category"
+          >
+            <option value="">Todas as Categorias</option>
+            <option value="conferencias">Conferências</option>
+            <option value="festivais">Festivais</option>
+            <option value="concertos">Concertos</option>
+            <option value="feiras">Feiras</option>
+            <option value="palestras">Palestras</option>
+            <option value="workshops">Workshops</option>
+            <option value="exposicoes">Exposições</option>
+            <option value="eventos_esportivos">Eventos esportivos</option>
+            <option value="cursos_treinamentos">Cursos e treinamentos</option>
+            <option value="eventos_networking">Eventos de networking</option>
+          </select>
         </div>
+
         <div className="form-group">
           <label>Preço</label>
           <input
