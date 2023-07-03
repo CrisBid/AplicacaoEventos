@@ -41,6 +41,28 @@ class Registrations {
         }
     }
 
+    public static function getEventsByUser($userId) {
+        $dbConn = Conn::getConnection();
+    
+        $sql = 'SELECT e.id, e.name, e.date
+                FROM tb_events e
+                INNER JOIN user_event ue ON e.id = ue.event_id
+                WHERE ue.user_id = :userId';
+        $stmt = $dbConn->prepare($sql);
+        $stmt->bindValue(':userId', $userId);
+        $stmt->execute();
+    
+        if ($stmt->rowCount() > 0) {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } else {
+            return null;
+        }
+    }
+    
+    
+
+
+
     public static function isUserRegisteredForEvent($data) {
         $dbConn = Conn::getConnection();
     

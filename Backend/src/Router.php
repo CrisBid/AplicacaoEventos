@@ -9,10 +9,12 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization, Accept, Acces
 header("Access-Control-Allow-Credentials: true");
 
 use App\Controllers\UserController;
-use JWT\JWT;
+use Firebase\JWT\JWT;
+use Exception;
 
 class Router {
     protected $routes = [];
+    private $jwtSecretKey = '435klfdlfjldf394lkjflskjdl'; //chave secreta randomica para assinar o token
 
     public function addRoute($method, $path, $controller) {
         $this->routes[] = [
@@ -40,6 +42,9 @@ class Router {
 
         $requestMethod = $_SERVER['REQUEST_METHOD'];
         $requestUrl = $_GET['url'];
+        //$token = $this->extractBearerToken();
+        //var_dump($token);
+        //$this->Auth($token);
 
         foreach ($this->routes as $route) {
 
@@ -110,6 +115,25 @@ class Router {
         return $urlParameters;
     }
 
+    private function extractBearerToken() {
+        $authorizationHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
+        
+        if (preg_match('/Bearer\s+(.*)$/i', $authorizationHeader, $matches)) {
+            return $matches[1];
+        }
+        
+        return null;
+    }
+
+    private function decodeToken($token) {
+        try {
+            $decodedToken = JWT::decode($token, $this->jwtSecretKey);
+            return $decodedToken;
+        } catch (Exception $e) {
+            return null; 
+        }
+    }
+    
     private function isJsonRequest() {
         $contentType = isset($_SERVER['CONTENT_TYPE']) ? $_SERVER['CONTENT_TYPE'] : '';
         return strpos($contentType, 'application/json') !== false;
@@ -129,9 +153,9 @@ class Router {
         return $_POST; 
     }
 
-    public function Auth($controller, $token) {
+    public function Auth($token) {
 
-        $decodedToken = $controller->decodeToken($token);
+        $decodedToken = $this->decodeToken($token);
 
         if ($decodedToken !== null) {
             switch ($decodedToken->role) {

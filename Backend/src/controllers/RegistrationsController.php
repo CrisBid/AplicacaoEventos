@@ -16,6 +16,11 @@ class RegistrationsController {
                 $this->handleGetAllEventRegistrations($registrations);
             }
             break;
+        case 'events/registrations/user/' . $data['id']:
+            if ($method == 'GET') {
+                $this->handlegetEventsByUser($registrations, $data['id']);
+            }
+            break;
         case 'users/registrations':
             if ($method == 'GET') {
                 $this->handleGetAllUserRegistrations($registrations);
@@ -50,7 +55,7 @@ class RegistrationsController {
             http_response_code(400);
             echo json_encode('INVALID PARAMETERS!');
             return;
-            }
+        }
     }
 
     private function handleGetAllEventRegistrations($registrations){
@@ -75,6 +80,21 @@ class RegistrationsController {
 
         http_response_code(404);
         echo json_encode('NOT FOUND!');
+    }
+
+    private function handlegetEventsByUser($registrations, $userId) {
+        $this->verifyData($userId);
+
+        $response = $registrations->getEventsByUser($userId);
+        if ($response) {
+            http_response_code(200);
+            echo json_encode($response);
+        }
+        else {
+            http_response_code(404);
+            echo json_encode('NOT REGISTERED IN ANY EVENT');
+        }       
+
     }
 
     private function handleEventRegistrate($registrations, $data){

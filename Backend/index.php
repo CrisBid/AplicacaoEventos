@@ -42,7 +42,7 @@ $router->addRoute('DELETE', 'events/delete/{id}', EventsController::class); // u
 $router->addRoute('POST', 'events/search', EventsController::class); // url: /events/search -- mandar o name OU description OU local OU date ou category do evento no body
 $router->addRoute('PUT', 'events/update', EventsController::class); // url: /events/update -- //Mandar o todos os dados, até os que não mudaram no body do request com verbo PUT -- OK 
 $router->addRoute('POST', 'events/validation', EventsController::class); // url: /events/validation -- /mandar o id do user e o do event;
-
+$router->addRoute('GET', 'events/registrations/user/{id}', RegistrationsController::class); //Mandar o todos os dados, até os que não mudaram no body do request com verbo PUT -- OK 
 
 //subscriptions (Organizador e participante podem inscrever e desinscrever de um evento)
 $router->addRoute('POST', 'events/registrate', RegistrationsController::class); // passar o userId(escrito desse jeito)) e o eventId(desse jeito) para inscrever em um evento
