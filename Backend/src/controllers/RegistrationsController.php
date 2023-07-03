@@ -32,12 +32,6 @@ class RegistrationsController {
                 $this->handleDeleteRegistration($registrations, $data);
             }
             break;
-        case 'events/registered':
-            if($method == 'POST') {
-                $this->handlegetUsersByEvent($registrations, $data);
-            }
-            break;
-
         case 'events/validation':
             if($method == 'POST') {
                 $this->handleEventsValidation($registrations, $data,);
@@ -113,20 +107,6 @@ class RegistrationsController {
         else {
             http_response_code(500);
             echo json_encode('NOT DELETED');
-        }        
-    }
-
-    private function handlegetUsersByEvent($registrations, $data) {
-        $this->verifyData($data);
-        
-        $response = $registrations->getUsersByEvent($data);
-        if($response) {
-            http_response_code(200);
-            echo json_encode($response);
-        }
-        else {
-            http_response_code(404);
-            echo json_encode('NOT FOUND');
         }        
     }
 
