@@ -144,7 +144,10 @@ class UserController {
         if ($response) {
             http_response_code(200);
         }
-        return;
+        else {
+            http_response_code(500);
+            echo json_encode('NOT DELETED');
+        }       
     }
 
     private function handleUpdateUser($user, $data) {
@@ -155,6 +158,9 @@ class UserController {
         if ($response) {
             http_response_code(200);
         }
-        return;
+        else {
+            http_response_code(500);
+            echo json_encode('NOT UPDATED');
+        }      
     }
 }

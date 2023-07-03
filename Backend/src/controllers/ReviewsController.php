@@ -32,9 +32,9 @@ class ReviewsController {
             }
             break;
 
-        case 'reviews/delete':
-            if($method == 'DELETE') {
-                $this->handleDeleteReview($reviews, $data);
+        case 'reviews/delete/' . $data['id']:
+            if ($method == 'DELETE') {
+                $this->handleDeleteReview($reviews, $data['id']);
             }
             break;
         default:
@@ -109,10 +109,10 @@ class ReviewsController {
         }
     }
 
-    private function handleDeleteReview($reviews, $data) {
-        $this->verifyData($data);
+    private function handleDeleteReview($reviews, $reviewId) {
+        $this->verifyData($reviewId);
 
-        $response = $reviews->deleteReview($data);
+        $response = $reviews->deleteReview($reviewId);
         if($response) {
             http_response_code(200);
         }
@@ -122,19 +122,6 @@ class ReviewsController {
         }        
     }
 
-    private function handlegetUsersByEvent($registrations, $data) {
-        $this->verifyData($data);
-        
-        $response = $registrations->getUsersByEvent($data);
-        if($response) {
-            http_response_code(200);
-            echo json_encode($response);
-        }
-        else {
-            http_response_code(404);
-            echo json_encode('NOT FOUND');
-        }        
-    }
 }  
 
 ?>

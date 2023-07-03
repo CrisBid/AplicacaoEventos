@@ -110,17 +110,23 @@ class Events {
         }
     }
     
-    public static function deleteEvent($data) {
+    public static function deleteEvent($eventId) {
         $dbConn = Conn::getConnection();
-
-        $sql = 'DELETE FROM '.self::$table.' WHERE id = :id';
-        $stmt = $dbConn->prepare($sql);
-        $stmt->bindValue(':id', $data['id']);
-        $stmt->execute();
-
-        if ($stmt->rowCount() > 0) {
+    
+        // Exclui os registros relacionados na tabela user_event
+        $sqlUserEvent = 'DELETE FROM user_event WHERE event_id = :id';
+        $stmtUserEvent = $dbConn->prepare($sqlUserEvent);
+        $stmtUserEvent->bindValue(':id', $eventId);
+        $stmtUserEvent->execute();
+    
+        // Exclui o evento na tabela tb_events
+        $sqlEvent = 'DELETE FROM tb_events WHERE id = :id';
+        $stmtEvent = $dbConn->prepare($sqlEvent);
+        $stmtEvent->bindValue(':id', $eventId);
+        $stmtEvent->execute();
+    
+        if ($stmtEvent->rowCount() > 0) {
             return true;
-            
         } else {
             return false;
         }

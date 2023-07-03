@@ -26,10 +26,10 @@ class EventsController {
                 $this->handleUpdateEvent($events, $data);
             }
             break;
-
-        case 'events/delete':
+        
+        case 'events/delete/' . $data['id']:
             if($method == 'DELETE') {
-                $this->handleDeleteEvent($events, $data);
+                $this->handleDeleteEvent($events, $data['id']);
             }
             break;
         case 'events/search':
@@ -81,10 +81,10 @@ class EventsController {
     }
   }
 
-  private function handleDeleteEvent($events, $data) {
-    $this->verifyData($data);
+  private function handleDeleteEvent($events, $eventId) {
+    $this->verifyData($eventId);
     
-    $response = $events->deleteEvent($data);
+    $response = $events->deleteEvent($eventId);
     if($response) {
  
         http_response_code(200);

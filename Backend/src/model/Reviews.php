@@ -43,7 +43,7 @@ class Reviews {
         }
     }
 
-    public static function getEventReviews($data) { //pega todos os comentários de um
+    public static function getEventReviews($data) { //pega todos os comentários de um evento
         $dbConn = Conn::getConnection();
     
         $sql = 'SELECT r.id, r.score, r.comment, e.name AS event_name, u.name AS user_name
@@ -81,12 +81,12 @@ class Reviews {
     }
     
 
-    public static function deleteReview($data) {
+    public static function deleteReview($reviewId) {
         $dbConn = Conn::getConnection();
     
         $sql = "DELETE FROM tb_reviews WHERE id = :rid";
         $stmt = $dbConn->prepare($sql);
-        $stmt->bindValue(':rid', $data['reviewId']);
+        $stmt->bindValue(':rid', $reviewId);
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
@@ -96,10 +96,6 @@ class Reviews {
             return false;
         }
     }
-
-    
-
-    
 
 }
 
