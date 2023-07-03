@@ -1,11 +1,12 @@
 import React, { useState, ChangeEvent } from 'react';
 import api from '../../../api/axios';
 import './styles.css';
+import { useNavigate } from 'react-router-dom';
 
 interface Event {
   name: string;
   date: string;
-  location: string;
+  local: string;
   description: string;
   time: string;
   category: string;
@@ -17,13 +18,15 @@ const CreateEventPage: React.FC = () => {
   const [event, setEvent] = useState<Event>({
     name: '',
     date: '',
-    location: '',
+    local: '',
     description: '',
     time: '',
     category: '',
     price: 0,
     img: '',
   });
+
+  const navigate = useNavigate();
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -39,6 +42,7 @@ const CreateEventPage: React.FC = () => {
       .then((response) => {
         // Lógica após a criação do evento bem-sucedida
         console.log(response.data); // Exemplo: exibir dados da resposta
+        navigate('/eventlist');
       })
       .catch((error) => {
         // Lógica em caso de erro na criação do evento
@@ -90,8 +94,8 @@ const CreateEventPage: React.FC = () => {
           <label>Localização</label>
           <input
             type="text"
-            name="location"
-            value={event.location}
+            name="local"
+            value={event.local}
             onChange={handleInputChange}
           />
         </div>

@@ -5,7 +5,6 @@
   padding-left: 5vw;
   padding-right: 5vw;
   background-color: #111;
-  height: 85vh;
 }
 
 h1 {
@@ -51,6 +50,8 @@ li:last-child {
   border-radius: 15px;
   padding-top: 2vh;
   padding-bottom: 2vh;
+  margin-bottom: 2vh;
+  color: white;
 }
 
 .button-container {

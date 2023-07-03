@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import defaultAvatar from '../../../../public/Images/Profile.png';
+import defaultAvatar from '../../../Images/Profile.png';
 import './styles.css';
+import api from '../../../api/axios';
 
 interface UserData {
-  name: string;
+  id: number;
+  user: string;
   email: string;
+  Authtoken: string;
   avatar?: string;
 }
 
@@ -21,14 +24,12 @@ const UserProfilePage: React.FC = () => {
   const [eventHistory, setEventHistory] = useState<EventHistory[]>([]);
 
   useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const profileResponse = await axios.get('/api/users/profile');
-        setUserData(profileResponse.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+      const userDataString = localStorage.getItem('userData');
+      if (userDataString) {
+        const userData: UserData = JSON.parse(userDataString);
+        // Redirecionar para a página de dashboard caso o usuário já esteja logado
+        setUserData(userData);
+      } 
 
     const fetchEventHistory = async () => {
       try {
@@ -39,7 +40,6 @@ const UserProfilePage: React.FC = () => {
       }
     };
 
-    fetchUserProfile();
     fetchEventHistory();
   }, []);
 
@@ -53,7 +53,7 @@ const UserProfilePage: React.FC = () => {
         <div className="user-avatar">
           <img className="avatar" src={avatarSrc} alt="User Avatar" />
         </div>
-        <p>Name: {userData?.name}</p>
+        <p>Name: {userData?.user}</p>
         <p>Email: {userData?.email}</p>
       </div>
       <div className="event-history-container">

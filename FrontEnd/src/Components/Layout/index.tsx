@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './styles.css';
 import { Outlet } from 'react-router-dom';
-import defaultAvatar from '../../../public/Images/Profile.png';
+import defaultAvatar from '../../Images/Profile.png';
+import { useNavigate } from 'react-router-dom';
 
 interface UserData {
-  name: string;
+  id: number;
+  user: string;
   email: string;
+  Authtoken: string;
   avatar?: string;
 }
 
@@ -14,9 +17,28 @@ const Layout: React.FC = ({ children }: any) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isLoggedIn, setisLoggedIn] = useState(false);
   const [userData, setUserData] = useState<UserData | undefined>();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Verificar se o usuário já está logado (se há dados no localStorage)
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString) {
+      const userData: UserData = JSON.parse(userDataString);
+      // Redirecionar para a página de dashboard caso o usuário já esteja logado
+      setUserData(userData);
+      setisLoggedIn(true);
+    }
+  }, []);
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('userData');
+    setUserData(undefined);
+    setisLoggedIn(false);
+    navigate('/home');
   };
 
   const avatarSrc = userData?.avatar || defaultAvatar;
@@ -34,25 +56,22 @@ const Layout: React.FC = ({ children }: any) => {
         </nav>
 
         {!isLoggedIn && (
-            <div className="login-menu">
-              <Link to="/login" className="login-button">Login</Link>
-              <Link to="/register" className="login-button">Cadastro</Link>
-            </div>
-          )}
+          <div className="login-menu">
+            <Link to="/login" className="login-button">Login</Link>
+            <Link to="/register" className="login-button">Cadastro</Link>
+          </div>
+        )}
         {isLoggedIn && (
           <div className="user-menu" onClick={toggleMenu}>
             <div className="user-botton-menu">
               <img className="headeravatar" src={avatarSrc} alt="User Avatar" />
-              <p>Usuário</p>
-            </div>  
+              <p>{userData?.user}</p>
+            </div>
             {menuOpen && (
               <ul className="dropdown-menu">
                 <div className="dropdown_menuContainer">
-
-                    <Link to="/profile">Perfil</Link>
-
-                    <Link to="/logout">Logout</Link>
-
+                  <Link to="/profile">Perfil</Link>
+                  <button onClick={handleLogout} className="dropdown_menuContainer_button">Logout</button>
                 </div>
               </ul>
             )}
